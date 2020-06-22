@@ -61,9 +61,9 @@ could be declared in the code itself or exist strictly in documentation.
 However it is done, it SHOULD be precise and comprehensive.
 
 1. A normal version number MUST take the form X.Y.Z where X, Y, and Z are
-non-negative integers, and MUST NOT contain leading zeroes. X is the
-major version, Y is the minor version, and Z is the patch version.
-Each element MUST increase numerically. For instance: 1.9.0 -> 1.10.0 -> 1.11.0.
+non-negative integers, and MUST NOT contain leading zeroes. X is the major
+version, Y is the minor version, and Z is the patch version. Each element MUST
+increase numerically. For instance: 1.9.0 -> 1.10.0 -> 1.11.0.
 
 1. Once a versioned package has been released, the contents of that version
 MUST NOT be modified. Any modifications MUST be released as a new version.
@@ -93,22 +93,22 @@ version is incremented.
 
 1. A pre-release version MAY be denoted by appending a hyphen and a
 series of dot separated identifiers immediately following the patch
-version. Identifiers MUST comprise only ASCII alphanumerics and hyphen
-[0-9A-Za-z-]. Identifiers MUST NOT be empty. Numeric identifiers MUST
+version. Identifiers MUST comprise only Unicode letters, numbers, and hyphen
+[\p{L}\p{N}-]. Identifiers MUST NOT be empty. Numeric identifiers MUST
 NOT include leading zeroes. Pre-release versions have a lower
 precedence than the associated normal version. A pre-release version
 indicates that the version is unstable and might not satisfy the
 intended compatibility requirements as denoted by its associated
 normal version. Examples: 1.0.0-alpha, 1.0.0-alpha.1, 1.0.0-0.3.7,
-1.0.0-x.7.z.92.
+1.0.0-x.7.z.92, 1.0.0-α, 1.0.0-‏אלפא‎, 1.0.0-‏ألفا‎.
 
 1. Build metadata MAY be denoted by appending a plus sign and a series of dot
 separated identifiers immediately following the patch or pre-release version.
-Identifiers MUST comprise only ASCII alphanumerics and hyphen [0-9A-Za-z-].
-Identifiers MUST NOT be empty. Build metadata MUST be ignored when determining
-version precedence. Thus two versions that differ only in the build metadata,
-have the same precedence. Examples: 1.0.0-alpha+001, 1.0.0+20130313144700,
-1.0.0-beta+exp.sha.5114f85.
+Identifiers MUST comprise only Unicode letters, numbers, and hyphen
+[\p{L}\p{N}-]. Identifiers MUST NOT be empty. Build metadata MUST be ignored
+when determining version precedence. Thus two versions that differ only in the
+build metadata, have the same precedence. Examples: 1.0.0-alpha+001,
+1.0.0+20130313144700, 1.0.0-beta+exp.sha.5114f85, 1.0.0-β+‏تلقائي‎.2020-01-22.
 
 1. Precedence refers to how versions are compared to each other when ordered.
 Precedence MUST be calculated by separating the version into major, minor, patch
@@ -122,7 +122,7 @@ for two pre-release versions with the same major, minor, and patch version MUST
 be determined by comparing each dot separated identifier from left to right
 until a difference is found as follows: identifiers consisting of only digits
 are compared numerically and identifiers with letters or hyphens are compared
-lexically in ASCII sort order. Numeric identifiers always have lower precedence
+lexically in Unicode sort order. Numeric identifiers always have lower precedence
 than non-numeric identifiers. A larger set of pre-release fields has a higher
 precedence than a smaller set, if all of the preceding identifiers are equal.
 Example: 1.0.0-alpha < 1.0.0-alpha.1 < 1.0.0-alpha.beta < 1.0.0-beta <
@@ -328,7 +328,7 @@ and Go).
 See: <https://regex101.com/r/Ly7O1x/3/>
 
 ```
-^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[\p{L}-][\p{L}\p{N}-]*)(?:\.(?:0|[1-9]\d*|\d*[\p{L}-][\p{L}\p{N}-]*))*))?(?:\+(?P<buildmetadata>[\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)*))?$
 ```
 
 And one with numbered capture groups instead (so cg1 = major, cg2 = minor,
@@ -339,7 +339,7 @@ i.e. Perl, PHP and R), Python and Go.
 See: <https://regex101.com/r/vkijKf/1/>
 
 ```
-^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[\p{L}-][\p{L}\p{N}-]*)(?:\.(?:0|[1-9]\d*|\d*[\p{L}-][\p{L}\p{N}-]*))*))?(?:\+([\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)*))?$
 ```
 
 About
